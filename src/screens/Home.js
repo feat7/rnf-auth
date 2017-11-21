@@ -1,11 +1,14 @@
 import React, { Component } from 'react';
-import { View } from "react-native";
+import { View, Text } from "react-native";
 
 export default class Home extends Component {
     render() {
         return (
-            <View style={{backgroundColor: 'green'}}>
-                
+            <View style={{
+                flex:1,backgroundColor: '#1dc16f', alignItems: 'center', justifyContent: 'center'}}>
+                <Text>
+                    Hello!
+                </Text>
             </View>
         );
     }

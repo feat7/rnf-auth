@@ -3,7 +3,7 @@ import { Home } from "./src/screens/Home";
 import { Provider, connect } from "react-redux";
 import { createStore } from "redux";
 import reducers from "./src/reducers";
-import CounterComponent from "./src/components/CounterComponent";
+import MainNavigator from "./src/routes/MainNavigator";
 
 const store = createStore(reducers);
 
@@ -16,7 +16,7 @@ class App extends React.Component {
   render() {
     return (
       <Provider store={store}>
-        <CounterComponent />
+        <MainNavigator />
       </Provider>
     );
   }
