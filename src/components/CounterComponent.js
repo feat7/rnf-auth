@@ -1,12 +1,14 @@
 import React, {Component} from "react";
 import { StyleSheet, Text, View, Button } from 'react-native';
 import { connect } from "react-redux";
+import * as actions from "../actions";
 
 class CounterComponent extends Component {
 
 
     onButtonPress() {
-        this.props.dispatch({type: 'counter_increment', payload: 1});
+        // this.props.increment();
+        this.props.increment();
         console.log(this.props);
     }
 
@@ -23,7 +25,7 @@ class CounterComponent extends Component {
 }
 
 const mapStateToProps = state => {
-    return { state: state.counter, dispatch: state.dispatch }
+    return { state: state.counter }
 }
 
 const styles = StyleSheet.create({
@@ -35,4 +37,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default connect(mapStateToProps)(CounterComponent);
+export default connect(mapStateToProps, actions)(CounterComponent);
