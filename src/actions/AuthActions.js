@@ -6,7 +6,7 @@ import {
     EMAIL_CHANGED,
     PASSWORD_CHANGED
 } from './types';
-import { NavigationActions } from 'react-navigation';
+import { Actions } from 'react-native-router-flux';
 
 export const emailChanged = email => {
     return {
@@ -47,4 +47,5 @@ export const loginUserSuccess = (dispatch, user) => {
     console.log("Login successful");
     
     //Change Page
+    Actions.home();
 }
