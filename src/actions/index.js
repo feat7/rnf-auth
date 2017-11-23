@@ -1,6 +1,1 @@
-export const increment = () => {
-    return {
-        type: "counter_increment",
-        payload: 1
-    }
-}
+export * from './AuthActions.js';

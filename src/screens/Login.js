@@ -1,26 +1,30 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import { View, Container, 
     Button, Text, Form, 
     Item, Label, Input, Content,
     H2 } from 'native-base';
 import { FontAwesome } from '@expo/vector-icons';
-import firebase from 'firebase';
+import {
+    emailChanged,
+    passwordChanged,
+    loginRequest
+} from '../actions';
 
 class Login extends Component {
 
-    state = {
-        email: '',
-        password: ''
-    }
+    onEmailChange(text) {
+        this.props.emailChanged(text);
+    }  
+    
+    onPasswordChange(text) {
+        this.props.passwordChanged(text);
+    }  
 
-    doLoginAction() {
-        firebase.auth().signInWithEmailAndPassword(this.state.email, this.state.password)
-            .then(() => console.log("Logged in!"))
-            .catch(function(error) {
-                var errorCode = error.code;
-                var errorMessage = error.message;
-                console.log("Error loggin in");
-            });
+    onLoginButtonPress() {
+        const { email, password } = this.props;
+
+        this.props.loginRequest({ email, password });
     }
 
     render() {
@@ -31,18 +35,18 @@ class Login extends Component {
                 <Form>
                     <Item floatingLabel>
                         <Label>Email</Label>
-                        <Input onChangeText={ email => this.setState({email}) }
-                            value={this.state.email}/>
+                        <Input onChangeText={ this.onEmailChange.bind(this) }
+                            value={ this.props.email }/>
                     </Item>
                     <Item floatingLabel>
                         <Label>Password</Label>
-                        <Input secureTextEntry  onChangeText={ password => this.setState({password}) }
-                        value={this.state.password}/>
+                        <Input secureTextEntry  onChangeText={ this.onPasswordChange.bind(this) }
+                        value={ this.props.password }/>
                     </Item>
                 </Form>
                 <Button 
                     style={{backgroundColor:'#2d74e2', alignSelf: 'flex-end', padding: 8, margin: 4}} rounded raised
-                    onPress={this.doLoginAction.bind(this)}
+                    onPress={ this.onLoginButtonPress.bind(this) }
                 >
                 <Text>Login</Text>
                 </Button>
@@ -60,5 +64,10 @@ class Login extends Component {
     }
 }
 
+const mapStateToProps = ({ auth }) => {
+    const { email, password, error, fetching } = auth; 
 
-export default Login;
+    return { email, password, error, fetching };
+}
+
+export default connect(mapStateToProps, {emailChanged, passwordChanged, loginRequest})(Login);

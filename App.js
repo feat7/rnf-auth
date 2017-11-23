@@ -1,7 +1,8 @@
 import React from 'react';
 import { Home } from "./src/screens/Home";
 import { Provider, connect } from "react-redux";
-import { createStore } from "redux";
+import { createStore, applyMiddleware } from "redux";
+import ReduxThunk from "redux-thunk";
 import reducers from "./src/reducers";
 import MainNavigator from "./src/routes/MainNavigator";
 import { Font } from "expo";
@@ -11,19 +12,25 @@ import {
   FN_projectId, FN_storageBucket, FN_messagingSenderId
 } from "react-native-dotenv";
 
-const store = createStore(reducers);
+const store = createStore(reducers, applyMiddleware(ReduxThunk));
 
 class App extends React.Component {
-  
-  state = {
-    counter: 0
-  }
 
-  componentDidMount() {
+  componentWillMount() {
     Font.loadAsync({
       'Roboto': require('native-base/Fonts/Roboto.ttf'),
       'Roboto_medium': require('native-base/Fonts/Roboto_medium.ttf'),
     });
+
+    var config = {
+      apiKey: FN_apiKey,
+      authDomain: FN_authDomain,
+      databaseURL: FN_databaseURL,
+      projectId: FN_projectId,
+      storageBucket: FN_storageBucket,
+      messagingSenderId: FN_messagingSenderId
+    };
+    firebase.initializeApp(config);
   }
 
   render() {
@@ -34,16 +41,5 @@ class App extends React.Component {
     );
   }
 }
-
-var config = {
-  apiKey: FN_apiKey,
-  authDomain: FN_authDomain,
-  databaseURL: FN_databaseURL,
-  projectId: FN_projectId,
-  storageBucket: FN_storageBucket,
-  messagingSenderId: FN_messagingSenderId
-};
-
-firebase.initializeApp(config);
 
 export default App;
