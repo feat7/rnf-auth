@@ -8,8 +8,10 @@ import { FontAwesome } from '@expo/vector-icons';
 import {
     emailChanged,
     passwordChanged,
-    loginRequest
+    loginRequest,
+    fbLoginRequest
 } from '../actions';
+import firebase from "firebase";
 
 class Login extends Component {
 
@@ -25,6 +27,10 @@ class Login extends Component {
         const { email, password } = this.props;
 
         this.props.loginRequest({ email, password });
+    }
+
+    async onFacebookLoginButtonPress() {
+        await this.props.fbLoginRequest();
     }
 
     render() {
@@ -52,10 +58,12 @@ class Login extends Component {
                 </Button>
 
                 </Content>
-                <Container style={{flex: 0.7}}>
+                <Container style={{flex: 0.6}}>
                     <Content>
-                        <Button style={{backgroundColor:'#2055a4', padding: 8, margin: 4}} full rounded><Text>Login with Facebook</Text></Button>                
-                        <Button style={{backgroundColor:'#ea2a53', padding: 8, margin: 4}} full rounded><Text>Login with Google</Text></Button>                
+                        <Button style={{backgroundColor:'#2055a4', padding: 8, margin: 4}} full rounded
+                            onPress={ this.onFacebookLoginButtonPress.bind(this) }>
+                            <Text>Login with Facebook</Text>
+                        </Button>                
                         <Button style={{backgroundColor:'#13a9dc', padding: 8, margin: 4}} full rounded><Text>Register</Text></Button>                
                     </Content>
                 </Container>
@@ -70,4 +78,4 @@ const mapStateToProps = ({ auth }) => {
     return { email, password, error, fetching };
 }
 
-export default connect(mapStateToProps, {emailChanged, passwordChanged, loginRequest})(Login);
+export default connect(mapStateToProps, {emailChanged, passwordChanged, loginRequest, fbLoginRequest})(Login);

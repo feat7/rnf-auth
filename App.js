@@ -16,12 +16,16 @@ const store = createStore(reducers, applyMiddleware(ReduxThunk));
 
 class App extends React.Component {
 
+  state = {
+    loaded: false
+  }
   async componentWillMount() {
     await Font.loadAsync({
       'Roboto': require('native-base/Fonts/Roboto.ttf'),
       'Roboto_medium': require('native-base/Fonts/Roboto_medium.ttf'),
     });
 
+    this.setState({loaded: true})
     var config = {
       apiKey: FN_apiKey,
       authDomain: FN_authDomain,
@@ -35,9 +39,12 @@ class App extends React.Component {
 
 
   render() {
+    if(!this.state.loaded) {
+      return <Expo.AppLoading />;
+    }
     return (
       <Provider store={store}>
-        <Router />
+          <Router />
       </Provider>
     );
   }

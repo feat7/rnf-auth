@@ -7,6 +7,7 @@ import {
     PASSWORD_CHANGED
 } from './types';
 import { Actions } from 'react-native-router-flux';
+import { FB_APP_ID } from 'react-native-dotenv';
 
 export const emailChanged = email => {
     return {
@@ -30,6 +31,30 @@ export const loginRequest = ({ email, password }) => {
             .then(user => loginUserSuccess(dispatch, user))
             .catch((error) => { console.log(error); loginUserFail(dispatch) });
     }
+}
+
+export const fbLoginRequest = () => {
+
+    return dispatch => {
+        dispatch({type: LOGIN_REQUEST});
+        async function logIn() {
+            const { type, token } = await Expo.Facebook.logInWithReadPermissionsAsync(FB_APP_ID, {
+                permissions: ['public_profile'],
+            })
+            
+            if(type === 'success') {
+                const credential = firebase.auth.FacebookAuthProvider.credential(token);
+                    firebase.auth().signInWithCredential(credential)
+                    .then((user) => loginUserSuccess(dispatch, user)) 
+                    .catch((error) => {
+                        console.log(error); loginUserFail(dispatch);
+                    });
+            }
+        }
+        logIn();
+    } 
+        
+           
 }
 
 export const loginUserFail = dispatch => {
