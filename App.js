@@ -5,6 +5,11 @@ import { createStore } from "redux";
 import reducers from "./src/reducers";
 import MainNavigator from "./src/routes/MainNavigator";
 import { Font } from "expo";
+import * as firebase from "firebase";
+import {
+  FN_apiKey, FN_authDomain, FN_databaseURL,
+  FN_projectId, FN_storageBucket, FN_messagingSenderId
+} from "react-native-dotenv";
 
 const store = createStore(reducers);
 
@@ -29,5 +34,16 @@ class App extends React.Component {
     );
   }
 }
+
+var config = {
+  apiKey: FN_apiKey,
+  authDomain: FN_authDomain,
+  databaseURL: FN_databaseURL,
+  projectId: FN_projectId,
+  storageBucket: FN_storageBucket,
+  messagingSenderId: FN_messagingSenderId
+};
+
+firebase.initializeApp(config);
 
 export default App;
