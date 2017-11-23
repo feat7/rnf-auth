@@ -4,8 +4,12 @@ Kick starter for react native projects.
 
 # Features
 - Redux style state management
-- Authentication with email and password
-- Authentication with Google and Facebook (coming soon)
+- Authentication with email and password with firebase
+- Authentication with Facebook with firebase
+
+### Upcoming features
+- Authentication with Google with firebase
+- Registration feature (email and password based with firebase)
 
 ### RNFAuth uses
 - React Native Router Flux for navigation
